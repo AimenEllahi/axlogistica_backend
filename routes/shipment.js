@@ -12,11 +12,11 @@ import {
 const router = express.Router();
 
 // Shipment routes (admin-controlled)
-router.post("/shipments", createShipment);
-router.get("/shipments", getAllShipments);
-router.get("/shipments/:id", getShipmentById);
-router.put("/shipments/:id", updateShipment);
-router.delete("/shipments/:id", deleteShipment);
-router.get("/shipments/user/:id", getShipmentForUser);
+router.post("/", createShipment);
+router.get("/", getAllShipments);
+router.get("/:id", getShipmentById);
+router.put("/:id", updateShipment);
+router.delete("/:id", deleteShipment);
+router.get("/user/:id", getShipmentForUser);
 
 export default router;

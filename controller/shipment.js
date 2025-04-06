@@ -18,6 +18,7 @@ export const createShipment = async (req, res) => {
 // READ All Shipments
 export const getAllShipments = async (req, res) => {
   try {
+    console.log("Fetching all shipments...");
     const shipments = await prisma.shipment.findMany({
       include: { user: true },
     });
