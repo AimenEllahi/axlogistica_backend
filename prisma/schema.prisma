@@ -1,0 +1,150 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+//
+// ENUMS
+//
+enum ShipmentStatus {
+  processing
+  scheduled
+  in_transit
+  delivered
+  delayed
+}
+
+enum ShipmentOperation {
+  impo
+  expo
+}
+
+enum ShipmentMode {
+  sea
+  air
+  courier
+}
+
+enum ShipmentType {
+  lcl
+  fcl_20_std
+  fcl_40_std
+  fcl_40_hc
+  fcl_40_nor
+}
+
+enum CargoType {
+  general
+  impo
+  others
+}
+
+enum Currency {
+  usd
+  eur
+  clp
+}
+
+//
+// MODELS
+//
+
+model User {
+  id       String     @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  email    String     @unique
+  shipments Shipment[] // Relation to Shipment
+}
+
+model Shipment {
+  id                  String             @id @default(auto()) @map("_id") @db.ObjectId
+  operationNo         String             @unique
+  status              ShipmentStatus
+  shipper             String
+  cnee                String
+  shipmentNumber      String
+  notify              String
+  terms               String
+  origin              String
+  destination         String
+  etd                 DateTime
+  eta                 DateTime
+  mode                ShipmentMode
+  type                ShipmentType
+  operation           ShipmentOperation
+  cargo               CargoType
+  comments            String?
+
+  // Advanced
+  weight              Float?
+  dimensions          String?
+  declaredValue       Float?
+  carrier             String?
+  serviceProvider     String?
+  specialInstructions String?
+
+  // Admin Section
+  freightCost         Float?
+  localExpenseCost    Float?
+  freightSale         Float?
+  localExpenseSale    Float?
+  profit              Float?
+  money               Currency?
+  seller              String?
+  commission          Float?
+  transactionCode     String?
+  paymentDate         DateTime?
+
+  documents           String[]           // File names or URLs
+  userId              String             @db.ObjectId
+  user                User               @relation(fields: [userId], references: [id])
+
+  createdAt           DateTime           @default(now())
+  updatedAt           DateTime           @updatedAt
+}
+
+model ClientOperation {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  operationNo   String   @unique
+  date          DateTime
+  client        String
+  cnee          String
+  shipper       String
+  notify        String
+  operation     String
+  mode          String
+  type          String
+  origin        String
+  destination   String
+  terms         String
+  cargo         String
+  etd           DateTime
+  eta           DateTime
+  comments      String?
+  documents     String[]
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model AdminOperation {
+  id                   String   @id @default(auto()) @map("_id") @db.ObjectId
+  operationNo          String   @unique
+  date                 DateTime
+  freightCost          Float
+  localExpenseCost     Float
+  seller               String
+  commission           Float
+  paymentDate          DateTime
+  freightSale          Float
+  localExpenseSale     Float
+  profit               Float
+  money                Float
+  transactionCode      String
+  documents            String[]
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+}

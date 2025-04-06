@@ -2,26 +2,26 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import morgan from "morgan";
+import clientRoutes from "./routes/client.js";
+import adminRoutes from "./routes/admin.js";
 
-// Load environment variables
 dotenv.config();
-
 const app = express();
 
-// Middleware
-app.use(express.json()); // Parse JSON bodies
-app.use(cors()); // Enable CORS
-app.use(morgan("dev")); // Logging
+app.use(express.json());
+app.use(cors());
+app.use(morgan("dev"));
 
-// Sample route
+// Route for client panel
+app.use("/client", clientRoutes);
+app.use("/admin", adminRoutes);
+
+// Default route
 app.get("/", (req, res) => {
-  res.send("Server is running...");
+  res.send("🚀 Logistics backend is running...");
 });
 
-// Define Port
 const PORT = process.env.PORT || 5000;
-
-// Start server
 app.listen(PORT, () => {
-  console.log(`🚀 Server is running on http://localhost:${PORT}`);
+  console.log(`✅ Server running at http://localhost:${PORT}`);
 });
