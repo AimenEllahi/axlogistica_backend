@@ -76,3 +76,21 @@ export const deleteShipment = async (req, res) => {
     res.status(500).json({ error: "Failed to delete shipment" });
   }
 };
+
+// Get Shipment for User
+export const getShipmentForUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const shipment = await prisma.shipment.findUnique({
+      where: { id },
+      include: { user: true },
+    });
+
+    if (!shipment) return res.status(404).json({ error: "Not found" });
+
+    res.json(shipment);
+  } catch (error) {
+    console.error("Fetch User Shipments Error:", error);
+    res.status(500).json({ error: "Failed to fetch shipments" });
+  }
+};

@@ -2,8 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import morgan from "morgan";
-import clientRoutes from "./routes/client.js";
-import adminRoutes from "./routes/admin.js";
+import ShipmentRoutes from "./routes/shipment.js";
 
 dotenv.config();
 const app = express();
@@ -12,9 +11,9 @@ app.use(express.json());
 app.use(cors());
 app.use(morgan("dev"));
 
-// Route for client panel
-app.use("/client", clientRoutes);
-app.use("/admin", adminRoutes);
+
+// Route for admin panel
+app.use("/shipment", ShipmentRoutes);
 
 // Default route
 app.get("/", (req, res) => {
