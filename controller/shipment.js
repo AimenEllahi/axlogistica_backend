@@ -19,9 +19,7 @@ export const createShipment = async (req, res) => {
 export const getAllShipments = async (req, res) => {
   try {
     console.log("Fetching all shipments...");
-    const shipments = await prisma.shipment.findMany({
-      include: { user: true },
-    });
+    const shipments = await prisma.shipment.findMany();
     res.json(shipments);
   } catch (error) {
     console.error("Fetch All Shipments Error:", error);
@@ -35,7 +33,6 @@ export const getShipmentById = async (req, res) => {
     const { id } = req.params;
     const shipment = await prisma.shipment.findUnique({
       where: { id },
-      include: { user: true },
     });
 
     if (!shipment) return res.status(404).json({ error: "Not found" });
@@ -81,6 +78,7 @@ export const deleteShipment = async (req, res) => {
 // Get Shipment for User
 export const getShipmentForUser = async (req, res) => {
   try {
+    console.log("Fetching user shipments...");
     const { id } = req.params;
     const shipment = await prisma.shipment.findUnique({
       where: { id },
