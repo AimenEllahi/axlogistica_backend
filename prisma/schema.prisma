@@ -54,9 +54,10 @@ enum Currency {
 model Shipment {
   id                  String             @id @default(auto()) @map("_id") @db.ObjectId
   operationNo         String             @unique
-  status              ShipmentStatus
+  status              String?
   shipper             String
-  clientEmail         String
+  clientEmail         String?
+  clientName          String?
   cnee                String
   shipmentNumber      String
   notify              String
@@ -65,10 +66,10 @@ model Shipment {
   destination         String
   etd                 DateTime
   eta                 DateTime
-  mode                ShipmentMode
-  type                ShipmentType
-  operation           ShipmentOperation
-  cargo               CargoType
+  mode                String?
+  type                String
+  operation           String?
+  cargo               String?
   comments            String?
 
   // Advanced
@@ -80,16 +81,17 @@ model Shipment {
   specialInstructions String?
 
   // Admin Section
-  freightCost         Float?
-  localExpenseCost    Float?
-  freightSale         Float?
-  localExpenseSale    Float?
+  fecha              DateTime?
+  costoFlete         Float?
+  costoGastoLocal    Float?
+  ventaFlete         Float?
+  ventaGastosLocales    Float?
   profit              Float?
   money               Currency?
-  seller              String?
+  vendedor              String?
   commission          Float?
   transactionCode     String?
-  paymentDate         DateTime?
+  fechaPago         DateTime?
 
   documents           String[]           // File names or URLs
  
