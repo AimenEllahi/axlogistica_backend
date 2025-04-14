@@ -16,9 +16,9 @@ const router = express.Router();
 router.post("/", createShipment);
 router.get("/", getAllShipments);
 router.get("/stats", getShipmentStats);
+router.get("/user/:id", getShipmentForUser);
 router.get("/:id", getShipmentById);
 router.put("/:id", updateShipment);
 router.delete("/:id", deleteShipment);
-router.get("/user/:id", getShipmentForUser);
 
 export default router;

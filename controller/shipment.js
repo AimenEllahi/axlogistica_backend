@@ -8,6 +8,26 @@ export const createShipment = async (req, res) => {
   try {
     const data = req.body;
     console.log(data, "Creating shipment...");
+    if (
+      !data.operationNo ||
+      !data.status ||
+      !data.shipper ||
+      !data.clientEmail ||
+      !data.cnee ||
+      !data.shipmentNumber ||
+      !data.notify ||
+      !data.terms ||
+      !data.origin ||
+      !data.destination ||
+      !data.etd ||
+      !data.eta ||
+      !data.mode ||
+      !data.type ||
+      !data.operation ||
+      !data.cargo
+    ) {
+      return res.status(400).json({ error: "Missing required fields" });
+    }
 
     const created = await prisma.shipment.create({
       data: {
@@ -75,9 +95,12 @@ export const getAllShipments = async (req, res) => {
 // READ One Shipment by ID
 export const getShipmentById = async (req, res) => {
   try {
+    console.log("Fetching shipment by ID...");
     const { id } = req.params;
     const shipment = await prisma.shipment.findUnique({
-      where: { id },
+      where: {
+        operationNo: id,
+      },
     });
 
     if (!shipment) return res.status(404).json({ error: "Not found" });
@@ -126,7 +149,9 @@ export const getShipmentForUser = async (req, res) => {
     console.log("Fetching user shipments...");
     const { id } = req.params;
     const shipment = await prisma.shipment.findUnique({
-      where: { id },
+      where: {
+        operationNo: id,
+      },
     });
 
     if (!shipment) return res.status(404).json({ error: "Not found" });
